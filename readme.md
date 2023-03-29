@@ -1,5 +1,5 @@
 # Git Repository Readme
-
+## File Summary
 This Git repository contains the following files and folders:
 
 - `BashScripts/`: A folder that contains Bash scripts.
@@ -7,24 +7,32 @@ This Git repository contains the following files and folders:
 - `consumer.cpp`: A C++ source code file that implements a consumer.
 - `shared.hpp`: A C++ header file that contains shared definitions used by both producer and consumer.
 
-## BashScripts
+### BashScripts
 
 This folder contains utility scripts that I used to quickly do repetitive tasks. This includes compiling, running the processes, doing both, and deleting the shared memory partition while debugging.
 
-## consumer.cpp
+### consumer.cpp
 
 This is a C++ source code file that implements a consumer. The consumer reads data from the shared table and outputs it to the console.
 
-## producer.cpp
+### producer.cpp
 
 This is a C++ source code file that implements a producer. The producer generates data and writes it to the shared table.
 
-## shared.hpp
+### shared.hpp
 
 This is a C++ header file that contains the definition of the table struct to be used by both producer and consumer.
 
 ## Getting Started
+### The Fast Way
 
+Simply run the following:
+
+```bash
+git clone https://github.com/Chris-G32/Assignment1 && bash BashScripts/makeandrun.sh
+```
+
+### The Slow Way
 To get started with this repository, you will need to clone it to your local machine:
 
 ```bash
@@ -41,10 +49,4 @@ After compiling, you can run the producer and consumer processes in separate ter
 
 ```bash
 ./producer & ./consumer &
-```
-
-Alternatively, you can run the following to compile and run the program:
-
-```bash
-bash BashScripts/makeandrun.sh
 ```
