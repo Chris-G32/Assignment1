@@ -9,26 +9,27 @@ This Git repository contains the following files and folders:
 
 ## BashScripts
 
-This folder contains Bash scripts used to automate certain tasks related to the producer and consumer processes.
-
-## producer.cpp
-
-This is a C++ source code file that implements a producer. The producer generates data and writes it to a shared buffer.
+This folder contains utility scripts that I used to quickly do repetitive tasks. This includes compiling, running the processes, doing both, and deleting the shared memory partition while debugging.
 
 ## consumer.cpp
 
-This is a C++ source code file that implements a consumer. The consumer reads data from the shared buffer and processes it.
+This is a C++ source code file that implements a consumer. The consumer reads data from the shared table and outputs it to the console.
+
+## producer.cpp
+
+This is a C++ source code file that implements a producer. The producer generates data and writes it to the shared table.
 
 ## shared.hpp
 
-This is a C++ header file that contains shared definitions used by both the producer and consumer. These definitions include data structures, constants, and function declarations that are used to communicate between the two processes.
+This is a C++ header file that contains the definition of the table struct to be used by both producer and consumer.
 
 ## Getting Started
 
 To get started with this repository, you will need to clone it to your local machine:
 
-git clone <repository-url>
-
+```bash
+git clone https://github.com/Chris-G32/Assignment1
+```
 
 Once you have cloned the repository, you can compile and run the producer and consumer processes. Make sure that you have a C++ compiler installed on your machine.
 
