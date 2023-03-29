@@ -33,18 +33,12 @@ git clone https://github.com/Chris-G32/Assignment1
 
 Once you have cloned the repository, you can compile and run the producer and consumer processes. Make sure that you have a C++ compiler installed on your machine.
 
-g++ -o producer producer.cpp shared.hpp
-g++ -o consumer consumer.cpp shared.hpp
+```bash
+g++ consumer.cpp -pthread -lrt -o consumer
+g++ producer.cpp -pthread -lrt -o producer
+```
 After compiling, you can run the producer and consumer processes in separate terminal windows:
 
-./producer
-./consumer
-
-
-## Contributing
-
-If you wish to contribute to this repository, please submit a pull request. Before submitting a pull request, please make sure that your code adheres to the repository's coding standards and has been thoroughly tested.
-
-## License
-
-This repository is licensed under the MIT license. See the LICENSE file for more information.
+```bash
+./producer & ./consumer &
+```
