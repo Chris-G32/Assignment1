@@ -42,3 +42,9 @@ After compiling, you can run the producer and consumer processes in separate ter
 ```bash
 ./producer & ./consumer &
 ```
+
+Alternatively, you can run the following to compile and run the program:
+
+```bash
+bash BashScripts/makeandrun.sh
+```
