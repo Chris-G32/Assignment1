@@ -1,3 +1,3 @@
 #!/bin/bash
-bash make.sh
-bash run.sh
+bash BashScripts/make.sh
+bash BashScripts/run.sh
