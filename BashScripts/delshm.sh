@@ -1,2 +1,2 @@
 #!/bin/bash
-rm /dev/shm/shared-mem-test
+rm /dev/shm/assignment1

@@ -11,10 +11,14 @@
               memory object */
 
 struct table {
-    sem_t  productionDone;            /* POSIX unnamed semaphore */
-    sem_t  consumptionDone;            /* POSIX unnamed semaphore */
+    sem_t  val1ProductionDone;            /* POSIX unnamed semaphore */
+    sem_t  val1ConsumptionDone;            /* POSIX unnamed semaphore */
+    sem_t  val2ProductionDone;            /* POSIX unnamed semaphore */
+    sem_t  val2ConsumptionDone;            /* POSIX unnamed semaphore */
+    sem_t  cleanupShm;            /* POSIX unnamed semaphore */
     int val1=-1;
     int val2=-1;
-    bool terminateProcess=false;
+    bool terminateProcessFlag1=false;
+    bool terminateProcessFlag2=false;
 };
 #endif
