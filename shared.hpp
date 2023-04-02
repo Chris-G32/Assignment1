@@ -4,21 +4,23 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <sys/stat.h>
-// #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
-//                                    } while (0)
 
-           /* Define a structure that will be imposed on the shared
-              memory object */
+/*Path for shared memory partition*/
+const char *SHAREDMEMPATH = "/assignment1";
 
-struct table {
-    sem_t  val1ProductionDone;            /* POSIX unnamed semaphore */
-    sem_t  val1ConsumptionDone;            /* POSIX unnamed semaphore */
-    sem_t  val2ProductionDone;            /* POSIX unnamed semaphore */
-    sem_t  val2ConsumptionDone;            /* POSIX unnamed semaphore */
-    sem_t  cleanupShm;            /* POSIX unnamed semaphore */
-    int val1=-1;
-    int val2=-1;
-    bool terminateProcessFlag1=false;
-    bool terminateProcessFlag2=false;
+/*Struct for a table that contains shared values and semaphores*/
+struct table
+{
+    sem_t val1ProductionDone;  /* Indicates val1 has a new value */
+    sem_t val1ConsumptionDone; /* Indicates val1 has been consumed */
+    sem_t val2ProductionDone;  /* Indicates val2 has a new value */
+    sem_t val2ConsumptionDone; /* Indicates val2 has been consumed */
+    /* Used by consumer only to know when to cleanup the shm,
+ may not be best practice to toss it in this file honestly */
+    sem_t cleanupShm;
+    int val1 = -1;                      /*Value one in the table*/
+    int val2 = -1;                      /*Value two in the table*/
+    bool terminateProcessFlag1 = false; /*Indicates that val1 will not receive any new values and its producer thread is gone*/
+    bool terminateProcessFlag2 = false; /*Indicates that val2 will not receive any new values and its producer thread is gone*/
 };
 #endif
