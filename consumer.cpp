@@ -21,6 +21,7 @@ struct table *sharedtable = nullptr;
 int main()
 {
     openShm();
+    
     createThreads();
 
     //End upon all threads finishing
