@@ -1,3 +1,2 @@
 #!/bin/bash
-./producer & 
-./consumer &
+./producer & ./consumer &

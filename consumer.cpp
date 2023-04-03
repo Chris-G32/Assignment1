@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h> // for close()
 #include <semaphore.h>
+#include <time.h>
 #include <errno.h> // for errno
 #include "shared.hpp"
 
@@ -17,14 +18,21 @@ struct table *sharedtable = nullptr;
 
 int main()
 {
-    std::cout<<"ENTRY CONSUMER:"<<std::endl;
-    int fd = shm_open(SHAREDMEMPATH, O_RDWR, 0);
-    std::cout<<"FD COnsumer: "<<fd;
+    int fd=-1;
+    while(fd==-1){
+        fd = shm_open(SHAREDMEMPATH, O_RDWR, 0);
+        if(fd==-1){
+            std::cout<<"Waiting for shm to be open..."<<std::endl;
+            usleep(250000);
+        }
+        else{
+            std::cout<<"Shared memory opened"<<std::endl;
+        }
+    }
+    
+    
     sharedtable = (struct table *)mmap(NULL, sizeof(*sharedtable),
                                        PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-
-    
- std::cout<<"No seg fault yet";
 
     pthread_t cons1, cons2, cleanup;
 
@@ -41,7 +49,6 @@ int main()
     pthread_create(&cleanup, NULL, &cleanupShm, NULL);
     pthread_join(cleanup, NULL);
 
-    // shm_unlink(SHAREDMEMPATH);
     return 0;
 }
 void *consume1(void *dummyptr)
@@ -52,10 +59,7 @@ void *consume1(void *dummyptr)
         std::cout << "Consumed val1: " << sharedtable->val1 << std::endl;
         if (sharedtable->terminateProcessFlag1)
         {
-            // shm_unlink(SHAREDMEMPATH);
             sem_post(&sharedtable->cleanupShm);
-            std::cout << std::endl
-                      << "before exit cons1";
             return dummyptr;
         }
         sem_post(&sharedtable->val1ConsumptionDone);
@@ -70,10 +74,7 @@ void *consume2(void *dummyptr)
         std::cout << "Consumed val2: " << sharedtable->val2 << std::endl;
         if (sharedtable->terminateProcessFlag2)
         {
-            // shm_unlink(SHAREDMEMPATH);
             sem_post(&sharedtable->cleanupShm);
-            std::cout << std::endl
-                      << "before exit cons2";
             return dummyptr;
         }
         sem_post(&sharedtable->val2ConsumptionDone);
