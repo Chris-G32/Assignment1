@@ -32,7 +32,7 @@ int main()
         createAndJoinThreads();
     }
     std::cout << std::endl
-              << "Successfully exiting producer" << std::endl;
+              << "Producer: Terminating..." << std::endl;
     exit(0);
 }
 void *produce1(void *dummyptr)
@@ -59,7 +59,6 @@ void *produce1(void *dummyptr)
             exit(1);
         }
     }
-    std::cout << "Before exit prod1";
     return dummyptr;
 }
 void *produce2(void *dummyptr)
@@ -86,7 +85,6 @@ void *produce2(void *dummyptr)
             exit(1);
         }
     }
-    std::cout << "Before exit prod2";
     return dummyptr;
 }
 /// @brief Initializes semaphores in shared memory
