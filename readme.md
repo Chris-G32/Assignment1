@@ -29,7 +29,7 @@ This is a C++ header file that contains the definition of the table struct to be
 Simply run the following:
 
 ```bash
-git clone https://github.com/Chris-G32/Assignment1 && bash BashScripts/makeandrun.sh
+git clone https://github.com/Chris-G32/Assignment1 && cd Assignment1 && bash BashScripts/makeandrun.sh
 ```
 
 ### The Slow Way
@@ -42,10 +42,11 @@ git clone https://github.com/Chris-G32/Assignment1
 Once you have cloned the repository, you can compile and run the producer and consumer processes. Make sure that you have a C++ compiler installed on your machine.
 
 ```bash
+cd Assignment1
 g++ consumer.cpp -pthread -lrt -o consumer
 g++ producer.cpp -pthread -lrt -o producer
 ```
-After compiling, you can run the producer and consumer processes in separate terminal windows:
+After compiling, you can run the producer and consumer processes:
 
 ```bash
 ./producer & ./consumer &
