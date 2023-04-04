@@ -6,7 +6,7 @@
 #include <time.h>
 #include <errno.h> // for errno
 #include "shared.hpp"
-
+#include <string.h>
 // Prototypes
 void openShm();
 void createThreads();
@@ -17,18 +17,19 @@ void *cleanupShm(void *); /*Cleans up shared memory and unlinks at end of proc *
 
 // Globals
 struct table *sharedtable = nullptr;
-
+using std::string;
 int main()
 {
     openShm();
-    
+
     createThreads();
 
-    //End upon all threads finishing
+    // End upon all threads finishing
     return 0;
 }
 /*Opens shared memory and maps table into this processes memory space*/
-void openShm(){
+void openShm()
+{
     int fd = -1;
     // Try to open shared memory until it is successfully opened
     while (fd == -1)
@@ -45,12 +46,13 @@ void openShm(){
         }
     }
     // Map shared memory to this process
-    if(!initSharedTable(fd)){
-        std::cout<<"!!! SHARED TABLE INITIALIZATION FAILED !!!";
+    if (!initSharedTable(fd))
+    {
+        std::cout << "!!! SHARED TABLE INITIALIZATION FAILED !!!";
     }
-
 }
-void createThreads(){
+void createThreads()
+{
     pthread_t cons1, cons2, cleanup;
 
     // Create thread for spot 1 consumption
@@ -72,8 +74,11 @@ void *consume1(void *dummyptr)
     // Wait for producer to say it can read
     while (sem_wait(&sharedtable->val1ProductionDone) != -1)
     {
+        // Formatted here to avoid errors where threads seem to get mixed up
+        string output = "Consumed val1: " + std::to_string(sharedtable->val1) + "\n";
+
         // Consume val1 from the shared table
-        std::cout << "Consumed val1: " << sharedtable->val1 << std::endl;
+        std::cout << output;
 
         // Check if the process should terminate
         if (sharedtable->terminateProcessFlag1)
@@ -95,8 +100,12 @@ void *consume2(void *dummyptr)
     // Wait for producer to say it can read
     while (sem_wait(&sharedtable->val2ProductionDone) != -1)
     {
-        // Consume val2 from the shared table
-        std::cout << "Consumed val2: " << sharedtable->val2 << std::endl;
+        
+        // Formatted here to avoid errors where threads seem to get mixed up
+        string output = "Consumed val2: " + std::to_string(sharedtable->val2) + "\n";
+
+        // Consume val1 from the shared table
+        std::cout << output;
 
         // Check if the process should terminate
         if (sharedtable->terminateProcessFlag2)
@@ -120,7 +129,9 @@ void *cleanupShm(void *dummy)
     // Unlink shared memory
     shm_unlink(SHAREDMEMPATH);
 
-    std::cout <<std::endl <<"Consumer: Shared memory unlinked!"<<std::endl<<"Consumer: Terminating..."<<std::endl;
+    std::cout << std::endl
+              << "Consumer: Shared memory unlinked!" << std::endl
+              << "Consumer: Terminating..." << std::endl;
 
     return dummy;
 }

@@ -4,7 +4,7 @@
 #include <unistd.h> // for close()
 #include <semaphore.h>
 #include <errno.h> // for errno
-
+#include <string.h>
 #include "shared.hpp"
 
 // Prototypes
@@ -17,7 +17,8 @@ void createAndJoinThreads();
 
 // Globals
 struct table *sharedtable;
-
+const int ITEMSTOPRODUCE=50;
+using std::string;
 int main()
 {
     std::cout<<"Producer: Producer starting..."<<std::endl;
@@ -38,20 +39,22 @@ int main()
 void *produce1(void *dummyptr)
 {
     srand(1432);
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < ITEMSTOPRODUCE; i++)
     {
         if (sem_wait(&sharedtable->val1ConsumptionDone) == -1)
         {
             perror("sem_wait");
             exit(1);
         }
-        if (i == 49)
+        if (i == ITEMSTOPRODUCE-1)
         {
             sharedtable->terminateProcessFlag1 = true;
         }
 
         sharedtable->val1 = rand() % 201 - 100;
-        std::cout << "Produced val1: " << sharedtable->val1 << std::endl;
+        //Formatted here to avoid errors where threads seem to get mixed up
+        string output="Produced val1: " + std::to_string(sharedtable->val1) + "\n";
+        std::cout << output;
         if (sem_post(&sharedtable->val1ProductionDone) == -1)
         {
             perror("sem_post");
@@ -64,20 +67,22 @@ void *produce1(void *dummyptr)
 void *produce2(void *dummyptr)
 {
     srand(0);
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < ITEMSTOPRODUCE; i++)
     {
         if (sem_wait(&sharedtable->val2ConsumptionDone) == -1)
         {
             perror("sem_wait");
             exit(1);
         }
-        if (i == 49)
+        if (i == ITEMSTOPRODUCE-1)
         {
             sharedtable->terminateProcessFlag2 = true;
         }
 
         sharedtable->val2 = rand() % 400 - 100;
-        std::cout << "Produced val2: " << sharedtable->val2 << std::endl;
+        //Formatted here to avoid errors where threads seem to get mixed up
+        string output="Produced val2: " + std::to_string(sharedtable->val2) + "\n";
+        std::cout << output;
         if (sem_post(&sharedtable->val2ProductionDone) == -1)
         {
             perror("sem_post");
