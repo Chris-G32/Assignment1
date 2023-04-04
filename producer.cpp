@@ -20,7 +20,7 @@ struct table *sharedtable;
 
 int main()
 {
-    std::cout<<"ENTRY PRODUCER:"<<std::endl;
+    std::cout<<"Producer: Producer starting..."<<std::endl;
     // Initialization of shared memory elements and semaphores
     if (!initSharedMemory() || !initSemaphores())
     {
